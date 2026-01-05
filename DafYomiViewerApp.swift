@@ -17,7 +17,7 @@ struct DafYomiViewerApp: App {
                 #endif
         }
         #if os(macOS)
-        .windowStyle(.hiddenTitleBar)
+        .windowStyle(.automatic)
         .defaultSize(width: 1400, height: 900)
         #endif
     }
@@ -30,15 +30,33 @@ struct WindowAccessor: NSViewRepresentable {
         let view = NSView()
         DispatchQueue.main.async {
             if let window = view.window {
-                window.titlebarAppearsTransparent = true
-                window.titleVisibility = .hidden
-                window.styleMask.insert(.fullSizeContentView)
+                // Enable standard title bar for double-click to maximize
+                window.titlebarAppearsTransparent = false
+                window.titleVisibility = .visible
+                window.styleMask.insert(.resizable)
+                window.styleMask.insert(.titled)
+                window.styleMask.remove(.fullSizeContentView)
+                
+                // Set initial title
+                window.title = "Daf Yomi Viewer"
+                
+                // Ensure window can be maximized (no maxSize restriction)
+                window.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
             }
         }
         return view
     }
     
     func updateNSView(_ nsView: NSView, context: Context) {}
+}
+
+// Helper function to update window title
+func setMacWindowTitle(_ title: String) {
+    DispatchQueue.main.async {
+        if let window = NSApplication.shared.windows.first {
+            window.title = title
+        }
+    }
 }
 #endif
 

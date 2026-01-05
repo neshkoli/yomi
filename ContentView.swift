@@ -34,6 +34,19 @@ struct ContentView: View {
         }
     }
     
+    #if os(macOS)
+    // Update window title with masechet name and daf
+    private func updateWindowTitle() {
+        if let masechet = selectedMasechet {
+            let dafHebrew = HebrewGematria.toHebrew(selectedDaf)
+            let title = "\(masechet.heTitle) \(dafHebrew)"
+            setMacWindowTitle(title)
+        } else {
+            setMacWindowTitle("Daf Yomi Viewer")
+        }
+    }
+    #endif
+    
     // Get content for current selection
     private func getGemaraText() -> String {
         guard let masechet = selectedMasechet else { return "" }
@@ -270,12 +283,21 @@ struct ContentView: View {
                     selectedDaf = 2
                 }
             }
+            #if os(macOS)
+            updateWindowTitle()
+            #endif
         }
         .onChange(of: selectedMasechet) { _ in
             reloadContent()
+            #if os(macOS)
+            updateWindowTitle()
+            #endif
         }
         .onChange(of: selectedDaf) { _ in
             // Content will be reloaded automatically when accessed
+            #if os(macOS)
+            updateWindowTitle()
+            #endif
         }
     }
 }

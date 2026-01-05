@@ -106,7 +106,7 @@ struct HebrewGematria {
             result += "צ"
             remaining -= 90
         } else if remaining >= 80 {
-            result += "ף"
+            result += "פ"
             remaining -= 80
         } else if remaining >= 70 {
             result += "ע"

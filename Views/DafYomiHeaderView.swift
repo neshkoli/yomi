@@ -28,27 +28,72 @@ struct DafYomiHeaderView: View {
         return masechet.pages + 1
     }
     
-    // Check if can go to previous page
+    // Get sorted masechtot by order
+    private var sortedMasechtot: [Masechet] {
+        dataLoader.masechtot.sorted(by: { $0.order < $1.order })
+    }
+    
+    // Get current masechet index in sorted list
+    private var currentMasechetIndex: Int? {
+        guard let masechet = selectedMasechet else { return nil }
+        return sortedMasechtot.firstIndex(where: { $0.id == masechet.id })
+    }
+    
+    // Check if can go to previous page (always true with wrapping)
     private var canGoPrevious: Bool {
-        selectedDaf > 2
+        true // Always allow navigation with wrapping
     }
     
-    // Check if can go to next page
+    // Check if can go to next page (always true with wrapping)
     private var canGoNext: Bool {
-        selectedDaf < maxPage
+        true // Always allow navigation with wrapping
     }
     
-    // Go to previous page
+    // Go to previous page with wrapping
     private func goToPreviousPage() {
-        if canGoPrevious {
+        guard let masechet = selectedMasechet,
+              let currentIndex = currentMasechetIndex else { return }
+        
+        if selectedDaf > 2 {
+            // Within same masechet, just go to previous page
             selectedDaf -= 1
+        } else {
+            // On first page, go to previous masechet
+            if currentIndex > 0 {
+                // Go to last page of previous masechet
+                let previousMasechet = sortedMasechtot[currentIndex - 1]
+                selectedMasechet = previousMasechet
+                selectedDaf = previousMasechet.pages + 1 // Last page
+            } else {
+                // On first masechet, wrap to last page of last masechet
+                let lastMasechet = sortedMasechtot[sortedMasechtot.count - 1]
+                selectedMasechet = lastMasechet
+                selectedDaf = lastMasechet.pages + 1 // Last page
+            }
         }
     }
     
-    // Go to next page
+    // Go to next page with wrapping
     private func goToNextPage() {
-        if canGoNext {
+        guard let masechet = selectedMasechet,
+              let currentIndex = currentMasechetIndex else { return }
+        
+        if selectedDaf < maxPage {
+            // Within same masechet, just go to next page
             selectedDaf += 1
+        } else {
+            // On last page, go to next masechet
+            if currentIndex < sortedMasechtot.count - 1 {
+                // Go to first page of next masechet
+                let nextMasechet = sortedMasechtot[currentIndex + 1]
+                selectedMasechet = nextMasechet
+                selectedDaf = 2 // First page
+            } else {
+                // On last masechet, wrap to first page of first masechet
+                let firstMasechet = sortedMasechtot[0]
+                selectedMasechet = firstMasechet
+                selectedDaf = 2 // First page
+            }
         }
     }
     
