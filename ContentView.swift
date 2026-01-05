@@ -90,12 +90,46 @@ struct ContentView: View {
         
         var combinedText = ""
         
+        // Helper function to format Rashi text with bold before dash and big for specific words at beginning
+        func formatRashiParagraph(_ text: String) -> String {
+            var formattedText = text
+            let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            // Wrap מתני' and גמ' in <big> tags only if at beginning of paragraph
+            if trimmedText.hasPrefix("מתני'") {
+                // Find the actual start position (accounting for leading whitespace)
+                let leadingWhitespace = text.count - trimmedText.count
+                let startIndex = text.index(text.startIndex, offsetBy: leadingWhitespace)
+                let endIndex = text.index(startIndex, offsetBy: 5) // "מתני'" is 5 characters
+                let before = String(text[..<startIndex])
+                let after = String(text[endIndex...])
+                formattedText = before + "<big>מתני'</big>" + after
+            } else if trimmedText.hasPrefix("גמ'") {
+                // Find the actual start position (accounting for leading whitespace)
+                let leadingWhitespace = text.count - trimmedText.count
+                let startIndex = text.index(text.startIndex, offsetBy: leadingWhitespace)
+                let endIndex = text.index(startIndex, offsetBy: 3) // "גמ'" is 3 characters (ג, מ, ')
+                let before = String(text[..<startIndex])
+                let after = String(text[endIndex...])
+                formattedText = before + "<big>גמ'</big>" + after
+            }
+            
+            // Handle bold before dash
+            if let dashIndex = formattedText.firstIndex(of: "-") {
+                let beforeDash = String(formattedText[..<dashIndex])
+                let afterDash = String(formattedText[formattedText.index(after: dashIndex)...])
+                return "<p><b>" + beforeDash + "</b>-" + afterDash + "</p>"
+            } else {
+                return "<p>" + formattedText + "</p>"
+            }
+        }
+        
         for content in partA {
             for rashi in content.rashi {
                 if !combinedText.isEmpty {
                     combinedText += "\n"
                 }
-                combinedText += "<p>" + rashi + "</p>"
+                combinedText += formatRashiParagraph(rashi)
             }
         }
         
@@ -104,7 +138,7 @@ struct ContentView: View {
                 if !combinedText.isEmpty {
                     combinedText += "\n"
                 }
-                combinedText += "<p>" + rashi + "</p>"
+                combinedText += formatRashiParagraph(rashi)
             }
         }
         
