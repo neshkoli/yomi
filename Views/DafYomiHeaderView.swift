@@ -11,6 +11,8 @@ struct DafYomiHeaderView: View {
     @Binding var selectedDaf: Int
     @Binding var fontSize: CGFloat
     @State private var showSettings = false
+    @State private var showDatePicker = false
+    @State private var internalPickerDate = Date()
     
     // Generate available pages for selected masechet
     private var availablePages: [(number: Int, hebrew: String)] {
@@ -163,6 +165,10 @@ struct DafYomiHeaderView: View {
                                 .padding(.vertical, 10)
                         }
                         .buttonStyle(.plain)
+                        .popover(isPresented: $showSettings) {
+                            SettingsView(fontSize: $fontSize)
+                                .frame(width: 300, height: 150)
+                        }
                         
                         // Next page button
                         Button(action: goToNextPage) {
@@ -190,21 +196,16 @@ struct DafYomiHeaderView: View {
                     
                     Spacer()
                     
-                    // Right section: Date display
-                    HStack(spacing: 12) {
+                    // Right section: Date display (stacked vertically)
+                    VStack(alignment: .trailing, spacing: 2) {
                         // Hebrew date
                         Text(formatHebrewDate(selectedDafDate))
-                            .font(.system(size: 18, weight: .medium))
+                            .font(.system(size: 14, weight: .medium))
                             .foregroundColor(.secondary)
-                        
-                        // Separator
-                        Text("•")
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundColor(.secondary.opacity(0.5))
                         
                         // Standard date
                         Text(formatStandardDate(selectedDafDate))
-                            .font(.system(size: 18, weight: .medium))
+                            .font(.system(size: 14, weight: .medium))
                             .foregroundColor(.secondary)
                     }
                     .multilineTextAlignment(.trailing)
@@ -212,6 +213,54 @@ struct DafYomiHeaderView: View {
                     .padding(.trailing, 16)
                     .padding(.leading, 12)
                     .environment(\.layoutDirection, .rightToLeft)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        internalPickerDate = selectedDafDate
+                        showDatePicker = true
+                    }
+                    .popover(isPresented: $showDatePicker) {
+                        VStack(spacing: 16) {
+                            Text("בחר תאריך")
+                                .font(.headline)
+                                .padding(.top, 8)
+                            
+                            DatePicker("", selection: $internalPickerDate, displayedComponents: .date)
+                                .datePickerStyle(.graphical)
+                                .environment(\.layoutDirection, .rightToLeft)
+                                .labelsHidden()
+                                .frame(width: 320)
+                            
+                            HStack(spacing: 12) {
+                                Button("ביטול") {
+                                    showDatePicker = false
+                                }
+                                .buttonStyle(.bordered)
+                                
+                                Button("היום") {
+                                    let today = Date()
+                                    internalPickerDate = today
+                                    if let result = DafYomiCalculator.calculateDaf(for: today, masechtot: dataLoader.masechtot) {
+                                        selectedMasechet = result.masechet
+                                        selectedDaf = result.daf
+                                    }
+                                    showDatePicker = false
+                                }
+                                .buttonStyle(.bordered)
+                                
+                                Button("בחר") {
+                                    if let result = DafYomiCalculator.calculateDaf(for: internalPickerDate, masechtot: dataLoader.masechtot) {
+                                        selectedMasechet = result.masechet
+                                        selectedDaf = result.daf
+                                    }
+                                    showDatePicker = false
+                                }
+                                .buttonStyle(.borderedProminent)
+                            }
+                            .padding(.bottom, 12)
+                        }
+                        .padding(.horizontal)
+                        .frame(width: 350)
+                    }
                 }
                 
                 // Center section: Dropdowns - overlaid and centered
@@ -299,16 +348,6 @@ struct DafYomiHeaderView: View {
         .frame(maxWidth: .infinity)
         .background(Color(white: 1.0))
         .ignoresSafeArea(.all, edges: .top)
-        .sheet(isPresented: $showSettings) {
-            SettingsView(fontSize: $fontSize)
-        }
-        .onAppear {
-            // Select first masechet by default
-            if selectedMasechet == nil && !dataLoader.masechtot.isEmpty {
-                selectedMasechet = dataLoader.masechtot.first
-                selectedDaf = 2
-            }
-        }
     }
 }
 

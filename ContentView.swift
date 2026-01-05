@@ -42,7 +42,7 @@ struct ContentView: View {
             let title = "\(masechet.heTitle) \(dafHebrew)"
             setMacWindowTitle(title)
         } else {
-            setMacWindowTitle("Daf Yomi Viewer")
+            setMacWindowTitle("Nehardea")
         }
     }
     #endif

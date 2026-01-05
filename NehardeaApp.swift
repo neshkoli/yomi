@@ -5,7 +5,7 @@ import AppKit
 #endif
 
 @main
-struct DafYomiViewerApp: App {
+struct NehardeaApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -38,7 +38,7 @@ struct WindowAccessor: NSViewRepresentable {
                 window.styleMask.remove(.fullSizeContentView)
                 
                 // Set initial title
-                window.title = "Daf Yomi Viewer"
+                window.title = "Nehardea"
                 
                 // Ensure window can be maximized (no maxSize restriction)
                 window.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)

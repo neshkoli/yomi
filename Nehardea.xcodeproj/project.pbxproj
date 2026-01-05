@@ -1,0 +1,441 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		084ECD1E0A919F4B45F61BDF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4D408DF7C51892E90CB716 /* SettingsView.swift */; };
+		0B5D50F14748CACF9BFCC8B0 /* DafYomiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C65FE87D6913D7B0CB1E1EC /* DafYomiData.swift */; };
+		2142718C65E9FB6CF6378113 /* DraggableDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1650E082B86BC9D366A2C63E /* DraggableDivider.swift */; };
+		2CE0D4901CC6577A62726ECE /* DafYomiHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574D072F68F0AEA271660FF3 /* DafYomiHeaderView.swift */; };
+		2F0D98A273AA36F8BAD0450D /* TextPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5DC906960CE61FF5D397B /* TextPanelView.swift */; };
+		310111558251E5CFF44FB886 /* NehardeaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA81647D3E370A8BE6BE773B /* NehardeaApp.swift */; };
+		344A4538F4E5375AE470E681 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F33EA986A4E9BAA4E5AA96 /* ContentView.swift */; };
+		3CBFE947FF32861732DD72CD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F33EA986A4E9BAA4E5AA96 /* ContentView.swift */; };
+		4810F45BCC494ED69B20FFEE /* sources in Resources */ = {isa = PBXBuildFile; fileRef = 386F2F2939927F150434BBB9 /* sources */; };
+		6BCEA0FC00E37F127928C19C /* DafYomiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C65FE87D6913D7B0CB1E1EC /* DafYomiData.swift */; };
+		94779959C875D69B0B6B4042 /* TextPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5DC906960CE61FF5D397B /* TextPanelView.swift */; };
+		A38AFFCF598E4B66CF2AEFA2 /* DafYomiHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574D072F68F0AEA271660FF3 /* DafYomiHeaderView.swift */; };
+		A53201A240595D85420661A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40BB0CCE1D29A0C3CE0304FA /* Assets.xcassets */; };
+		AD7D1B045A35EC4B8C0AE91B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40BB0CCE1D29A0C3CE0304FA /* Assets.xcassets */; };
+		B83D77767832F3CE6FE7202C /* NehardeaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA81647D3E370A8BE6BE773B /* NehardeaApp.swift */; };
+		CE86FFF761BDFE0FFC12D9B5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4D408DF7C51892E90CB716 /* SettingsView.swift */; };
+		DDB6D29B45E65A62D017C11C /* DraggableDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1650E082B86BC9D366A2C63E /* DraggableDivider.swift */; };
+		E56761D3D7ECCE8F55349516 /* sources in Resources */ = {isa = PBXBuildFile; fileRef = 386F2F2939927F150434BBB9 /* sources */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		10BFE04DE81F475ECFEC0440 /* Nehardea.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Nehardea.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1650E082B86BC9D366A2C63E /* DraggableDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableDivider.swift; sourceTree = "<group>"; };
+		386F2F2939927F150434BBB9 /* sources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sources; sourceTree = SOURCE_ROOT; };
+		40BB0CCE1D29A0C3CE0304FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		574D072F68F0AEA271660FF3 /* DafYomiHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DafYomiHeaderView.swift; sourceTree = "<group>"; };
+		5C65FE87D6913D7B0CB1E1EC /* DafYomiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DafYomiData.swift; sourceTree = "<group>"; };
+		5EC5DC906960CE61FF5D397B /* TextPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPanelView.swift; sourceTree = "<group>"; };
+		81F33EA986A4E9BAA4E5AA96 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BA4D408DF7C51892E90CB716 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		CA81647D3E370A8BE6BE773B /* NehardeaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NehardeaApp.swift; sourceTree = "<group>"; };
+		F0D3A2D426E976FCEAEFD0BC /* Nehardea (macOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nehardea (macOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0CF1AA2230814795602327BF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				574D072F68F0AEA271660FF3 /* DafYomiHeaderView.swift */,
+				1650E082B86BC9D366A2C63E /* DraggableDivider.swift */,
+				BA4D408DF7C51892E90CB716 /* SettingsView.swift */,
+				5EC5DC906960CE61FF5D397B /* TextPanelView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8D9B1280DF0C3A7F47457464 = {
+			isa = PBXGroup;
+			children = (
+				40BB0CCE1D29A0C3CE0304FA /* Assets.xcassets */,
+				386F2F2939927F150434BBB9 /* sources */,
+				ADAB16D72C14A4E2BAC67497 /* Models */,
+				0CF1AA2230814795602327BF /* Views */,
+				C1922C3744B5E31767858D1B /* yomi */,
+				BCDF3E95E482197162569333 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		ADAB16D72C14A4E2BAC67497 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5C65FE87D6913D7B0CB1E1EC /* DafYomiData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BCDF3E95E482197162569333 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F0D3A2D426E976FCEAEFD0BC /* Nehardea (macOS).app */,
+				10BFE04DE81F475ECFEC0440 /* Nehardea.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C1922C3744B5E31767858D1B /* yomi */ = {
+			isa = PBXGroup;
+			children = (
+				40BB0CCE1D29A0C3CE0304FA /* Assets.xcassets */,
+				81F33EA986A4E9BAA4E5AA96 /* ContentView.swift */,
+				CA81647D3E370A8BE6BE773B /* NehardeaApp.swift */,
+			);
+			name = yomi;
+			path = .;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4F35184CE71F29F31CF9602E /* Nehardea (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 85752E0D71AD7B452A39F626 /* Build configuration list for PBXNativeTarget "Nehardea (macOS)" */;
+			buildPhases = (
+				ED99F60A824AD2D1CEFDB3EF /* Sources */,
+				16D758D7D45CA64E9C70526F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Nehardea (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "Nehardea (macOS)";
+			productReference = F0D3A2D426E976FCEAEFD0BC /* Nehardea (macOS).app */;
+			productType = "com.apple.product-type.application";
+		};
+		A4D9C09CCE9BD4DC651A882D /* Nehardea */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F176B9162AC9AC0C90DDA033 /* Build configuration list for PBXNativeTarget "Nehardea" */;
+			buildPhases = (
+				D3392CC0FC55FE75FBEEE372 /* Sources */,
+				4F90C6FDD67F3C2769F4EDD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Nehardea;
+			packageProductDependencies = (
+			);
+			productName = Nehardea;
+			productReference = 10BFE04DE81F475ECFEC0440 /* Nehardea.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DD444637AAB18D303EB3B90D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = 61AFDDF4DB460FFF057BB1F6 /* Build configuration list for PBXProject "Nehardea" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 8D9B1280DF0C3A7F47457464;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A4D9C09CCE9BD4DC651A882D /* Nehardea */,
+				4F35184CE71F29F31CF9602E /* Nehardea (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		16D758D7D45CA64E9C70526F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD7D1B045A35EC4B8C0AE91B /* Assets.xcassets in Resources */,
+				4810F45BCC494ED69B20FFEE /* sources in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F90C6FDD67F3C2769F4EDD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A53201A240595D85420661A0 /* Assets.xcassets in Resources */,
+				E56761D3D7ECCE8F55349516 /* sources in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D3392CC0FC55FE75FBEEE372 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				344A4538F4E5375AE470E681 /* ContentView.swift in Sources */,
+				0B5D50F14748CACF9BFCC8B0 /* DafYomiData.swift in Sources */,
+				A38AFFCF598E4B66CF2AEFA2 /* DafYomiHeaderView.swift in Sources */,
+				2142718C65E9FB6CF6378113 /* DraggableDivider.swift in Sources */,
+				310111558251E5CFF44FB886 /* NehardeaApp.swift in Sources */,
+				084ECD1E0A919F4B45F61BDF /* SettingsView.swift in Sources */,
+				2F0D98A273AA36F8BAD0450D /* TextPanelView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED99F60A824AD2D1CEFDB3EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CBFE947FF32861732DD72CD /* ContentView.swift in Sources */,
+				6BCEA0FC00E37F127928C19C /* DafYomiData.swift in Sources */,
+				2CE0D4901CC6577A62726ECE /* DafYomiHeaderView.swift in Sources */,
+				DDB6D29B45E65A62D017C11C /* DraggableDivider.swift in Sources */,
+				B83D77767832F3CE6FE7202C /* NehardeaApp.swift in Sources */,
+				CE86FFF761BDFE0FFC12D9B5 /* SettingsView.swift in Sources */,
+				94779959C875D69B0B6B4042 /* TextPanelView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		08CA91F8E1F5CB24A314277B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A20F0A8A382D0D978CEDC748 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nehardea.viewer.mac;
+				PRODUCT_NAME = Nehardea;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BAECA948BF28138868F05352 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BF70D60087689BBCCA538FBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nehardea.viewer.mac;
+				PRODUCT_NAME = Nehardea;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C27BB27774B2F5C3A2815A95 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nehardea.viewer;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+		DE8ACF6750EB0927C891DF27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nehardea.viewer;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		61AFDDF4DB460FFF057BB1F6 /* Build configuration list for PBXProject "Nehardea" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08CA91F8E1F5CB24A314277B /* Debug */,
+				BAECA948BF28138868F05352 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		85752E0D71AD7B452A39F626 /* Build configuration list for PBXNativeTarget "Nehardea (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A20F0A8A382D0D978CEDC748 /* Debug */,
+				BF70D60087689BBCCA538FBC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F176B9162AC9AC0C90DDA033 /* Build configuration list for PBXNativeTarget "Nehardea" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE8ACF6750EB0927C891DF27 /* Debug */,
+				C27BB27774B2F5C3A2815A95 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DD444637AAB18D303EB3B90D /* Project object */;
+}

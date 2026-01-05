@@ -30,8 +30,8 @@ A SwiftUI application for viewing the daily Daf Yomi (Talmud learning) with a mu
 ## Project Structure
 
 ```
-DafYomiViewer/
-├── DafYomiViewerApp.swift      # App entry point
+Nehardea/
+├── NehardeaApp.swift           # App entry point
 ├── ContentView.swift            # Main layout with orientation handling
 ├── Views/
 │   ├── DafYomiHeaderView.swift  # Header with navigation and date display
@@ -47,7 +47,7 @@ DafYomiViewer/
 ## Setup
 
 1. Open the project in Xcode
-2. Select the target (DafYomiViewer for iPad or DafYomiViewerMac for macOS)
+2. Select the target (Nehardea for iPad or NehardeaMac for macOS)
 3. Build and run
 
 ## Daf Yomi Cycle
