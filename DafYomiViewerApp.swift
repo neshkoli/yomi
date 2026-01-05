@@ -10,6 +10,7 @@ struct DafYomiViewerApp: App {
         WindowGroup {
             ContentView()
                 .preferredColorScheme(.light)
+                .background(Color(white: 1.0).ignoresSafeArea(.all, edges: .all))
                 #if os(macOS)
                 .frame(minWidth: 1200, minHeight: 800)
                 .background(WindowAccessor())

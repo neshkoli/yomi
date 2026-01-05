@@ -1,9 +1,17 @@
 import SwiftUI
 
+#if os(iOS)
+import UIKit
+#endif
+
 struct ContentView: View {
     // Panel size ratios (0.0 to 1.0)
     @State private var leftPanelWidth: CGFloat = 0.4  // 40% of screen width
     @State private var rashiHeight: CGFloat = 0.5    // 50% of left panel height
+    
+    // Portrait mode panel sizes
+    @State private var gemaraHeight: CGFloat = 0.5    // 50% of available height for Gemara (top)
+    @State private var bottomLeftWidth: CGFloat = 0.5  // 50% of width for Steinsaltz (left in bottom)
     
     // Minimum panel sizes (as ratios)
     private let minPanelWidth: CGFloat = 0.2   // 20% minimum
@@ -14,6 +22,7 @@ struct ContentView: View {
     private let headerHeight: CGFloat = 70
     
     @StateObject private var contentLoader = MasechetContentLoader()
+    @StateObject private var masechetDataLoader = MasechetDataLoader()
     @State private var selectedMasechet: Masechet?
     @State private var selectedDaf: Int = 2
     @State private var fontSize: CGFloat = 22
@@ -120,65 +129,148 @@ struct ContentView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            let availableHeight = geometry.size.height - headerHeight
+            let isLandscape = geometry.size.width > geometry.size.height
+            #if os(iOS)
+            let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+            #else
+            let isIPad = false
+            #endif
+            
+            // Use full geometry height (including safe areas)
+            let fullHeight = geometry.size.height
+            let availableHeight = fullHeight - headerHeight
             
             ZStack {
-                // Background to fill entire screen
+                // Background to fill entire screen including safe areas
                 Color(white: 1.0)
-                    .opacity(1.0)
                     .ignoresSafeArea(.all, edges: .all)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
                 
                 VStack(spacing: 0) {
-                    // Header
+                    // Header - background extends to top, content respects safe area
                     DafYomiHeaderView(selectedMasechet: $selectedMasechet, selectedDaf: $selectedDaf, fontSize: $fontSize)
+                        .frame(height: headerHeight)
+                        .background(Color(white: 1.0).ignoresSafeArea(.all, edges: .top))
                     
-                    // Main content area
-                    HStack(spacing: 0) {
-                        // Left panel (Rashi and Steinsaltz)
+                    // Main content area - different layout for iPad portrait
+                    if isIPad && !isLandscape {
+                        // Portrait layout: Top half Gemara, bottom half split Rashi/Steinsaltz
                         VStack(spacing: 0) {
-                            // Rashi panel
+                            // Top half: Gemara (full width)
                             TextPanelView(
-                                title: "רש\"י",
-                                content: getRashiText(),
+                                title: "גמרא",
+                                content: getGemaraText(),
                                 fontSize: fontSize
                             )
-                            .frame(height: availableHeight * rashiHeight)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .frame(height: availableHeight * gemaraHeight)
                             
                             // Horizontal divider
                             DraggableDivider(orientation: .horizontal) { delta in
-                                let newHeight = rashiHeight + (delta / availableHeight)
-                                rashiHeight = min(max(newHeight, minPanelHeight), maxPanelHeight)
+                                let newHeight = gemaraHeight + (delta / availableHeight)
+                                gemaraHeight = min(max(newHeight, minPanelHeight), maxPanelHeight)
                             }
                             
-                            // Steinsaltz panel
+                            // Bottom half: Rashi and Steinsaltz side by side
+                            HStack(spacing: 0) {
+                                // Steinsaltz (left)
+                                TextPanelView(
+                                    title: "שטיינזלץ",
+                                    content: getSteinsaltzText(),
+                                    fontSize: fontSize
+                                )
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .frame(width: geometry.size.width * bottomLeftWidth)
+                                
+                                // Vertical divider
+                                DraggableDivider(orientation: .vertical) { delta in
+                                    let newWidth = bottomLeftWidth + (delta / geometry.size.width)
+                                    bottomLeftWidth = min(max(newWidth, minPanelWidth), maxPanelWidth)
+                                }
+                                
+                                // Rashi (right)
+                                TextPanelView(
+                                    title: "רש\"י",
+                                    content: getRashiText(),
+                                    fontSize: fontSize
+                                )
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .frame(width: geometry.size.width * (1.0 - bottomLeftWidth))
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .frame(height: availableHeight * (1.0 - gemaraHeight))
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        // Landscape layout (or non-iPad): Original layout
+                        HStack(spacing: 0) {
+                            // Left panel (Rashi and Steinsaltz)
+                            VStack(spacing: 0) {
+                                // Rashi panel
+                                TextPanelView(
+                                    title: "רש\"י",
+                                    content: getRashiText(),
+                                    fontSize: fontSize
+                                )
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .frame(height: availableHeight * rashiHeight)
+                                
+                                // Horizontal divider
+                                DraggableDivider(orientation: .horizontal) { delta in
+                                    let newHeight = rashiHeight + (delta / availableHeight)
+                                    rashiHeight = min(max(newHeight, minPanelHeight), maxPanelHeight)
+                                }
+                                
+                                // Steinsaltz panel
+                                TextPanelView(
+                                    title: "שטיינזלץ",
+                                    content: getSteinsaltzText(),
+                                    fontSize: fontSize
+                                )
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .frame(height: availableHeight * (1.0 - rashiHeight))
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .frame(width: geometry.size.width * leftPanelWidth)
+                            
+                            // Vertical divider
+                            DraggableDivider(orientation: .vertical) { delta in
+                                let newWidth = leftPanelWidth + (delta / geometry.size.width)
+                                leftPanelWidth = min(max(newWidth, minPanelWidth), maxPanelWidth)
+                            }
+                            
+                            // Right panel (Main Talmud text)
                             TextPanelView(
-                                title: "שטיינזלץ",
-                                content: getSteinsaltzText(),
+                                title: "גמרא",
+                                content: getGemaraText(),
                                 fontSize: fontSize
                             )
-                            .frame(height: availableHeight * (1.0 - rashiHeight))
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .frame(width: geometry.size.width * (1.0 - leftPanelWidth))
                         }
-                        .frame(width: geometry.size.width * leftPanelWidth)
-                        
-                        // Vertical divider
-                        DraggableDivider(orientation: .vertical) { delta in
-                            let newWidth = leftPanelWidth + (delta / geometry.size.width)
-                            leftPanelWidth = min(max(newWidth, minPanelWidth), maxPanelWidth)
-                        }
-                        
-                        // Right panel (Main Talmud text)
-                        TextPanelView(
-                            title: "גמרא",
-                            content: getGemaraText(),
-                            fontSize: fontSize
-                        )
-                        .frame(width: geometry.size.width * (1.0 - leftPanelWidth))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .frame(height: availableHeight)
                     }
-                    .frame(height: availableHeight)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+        }
+        .ignoresSafeArea(.all, edges: .all)
+        .background(Color(white: 1.0).ignoresSafeArea(.all, edges: .all))
+        .onAppear {
+            // Calculate and set today's daf when app appears
+            if selectedMasechet == nil && !masechetDataLoader.masechtot.isEmpty {
+                if let todayDaf = DafYomiCalculator.calculateTodayDaf(masechtot: masechetDataLoader.masechtot) {
+                    selectedMasechet = todayDaf.masechet
+                    selectedDaf = todayDaf.daf
+                } else {
+                    // Fallback to first masechet if calculation fails
+                    selectedMasechet = masechetDataLoader.masechtot.first
+                    selectedDaf = 2
                 }
             }
         }
-        .ignoresSafeArea(.all, edges: .all)
         .onChange(of: selectedMasechet) { _ in
             reloadContent()
         }

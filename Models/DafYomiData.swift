@@ -201,6 +201,110 @@ struct HebrewGematria {
     }
 }
 
+// Hebrew date formatter using native Swift Calendar and DateFormatter
+struct HebrewDateFormatter {
+    static func todayHebrewDate() -> String {
+        return formatHebrewDate(Date())
+    }
+    
+    static func formatHebrewDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: .hebrew)
+        dateFormatter.locale = Locale(identifier: "he")
+        dateFormatter.dateStyle = .full
+        
+        // Format: "יום א׳, ט״ו בטבת תשפ״ו" -> extract just the date part
+        let fullDate = dateFormatter.string(from: date)
+        
+        // The Hebrew locale will format it correctly with Hebrew numerals and month names
+        // Format is typically: "יום [day], [day] ב[month] [year]"
+        return fullDate
+    }
+}
+
+// Daf Yomi calculator
+struct DafYomiCalculator {
+    // Cycle 14 Start Date: Jan 5, 2020
+    private static let cycleStartDate: Date = {
+        var components = DateComponents()
+        components.year = 2020
+        components.month = 1
+        components.day = 5
+        return Calendar.current.date(from: components) ?? Date()
+    }()
+    
+    // Total days in a Daf Yomi cycle (2,711 days)
+    private static let cycleLength = 2711
+    
+    // Calculate today's daf
+    static func calculateTodayDaf(masechtot: [Masechet]) -> (masechet: Masechet?, daf: Int)? {
+        return calculateDaf(for: Date(), masechtot: masechtot)
+    }
+    
+    // Calculate daf for a specific date
+    static func calculateDaf(for date: Date, masechtot: [Masechet]) -> (masechet: Masechet?, daf: Int)? {
+        let calendar = Calendar.current
+        
+        // Calculate total days between start and target date
+        let diff = calendar.dateComponents([.day], from: cycleStartDate, to: date)
+        guard let totalDays = diff.day else { return nil }
+        
+        // Normalize to the 2,711 day cycle
+        let cycleDay = ((totalDays % cycleLength) + cycleLength) % cycleLength
+        
+        // Find which tractate the cycleDay falls into
+        var currentOffset = 0
+        for masechet in masechtot.sorted(by: { $0.order < $1.order }) {
+            if cycleDay < (currentOffset + masechet.pages) {
+                let pageNum = (cycleDay - currentOffset) + 2 // Talmud starts at page 2
+                return (masechet: masechet, daf: pageNum)
+            }
+            currentOffset += masechet.pages
+        }
+        
+        return nil
+    }
+    
+    // Calculate the date for a specific masechet and daf (relative to today)
+    static func calculateDate(for masechet: Masechet, daf: Int, masechtot: [Masechet]) -> Date? {
+        let calendar = Calendar.current
+        
+        // Calculate which cycle day this daf represents
+        var targetCycleDay = 0
+        for m in masechtot.sorted(by: { $0.order < $1.order }) {
+            if m.id == masechet.id {
+                // Found the masechet, calculate the cycle day
+                targetCycleDay += (daf - 2) // Subtract 2 because Talmud starts at page 2
+                break
+            }
+            targetCycleDay += m.pages
+        }
+        
+        // Calculate today's cycle day
+        let today = Date()
+        let diff = calendar.dateComponents([.day], from: cycleStartDate, to: today)
+        guard let totalDays = diff.day else { return nil }
+        
+        // Normalize to the cycle
+        let todayCycleDay = ((totalDays % cycleLength) + cycleLength) % cycleLength
+        
+        // Calculate the difference in cycle days
+        var dayDifference = targetCycleDay - todayCycleDay
+        
+        // Handle wrap-around: if target is before today in the cycle, it might be in the next cycle
+        // But for navigation purposes, we want relative dates, so we'll use the closest match
+        // If the difference is large (more than half cycle), assume it's in the previous cycle
+        if dayDifference > cycleLength / 2 {
+            dayDifference -= cycleLength
+        } else if dayDifference < -cycleLength / 2 {
+            dayDifference += cycleLength
+        }
+        
+        // Add the difference to today's date
+        return calendar.date(byAdding: .day, value: dayDifference, to: today)
+    }
+}
+
 // Daf content structure
 struct DafContent: Codable {
     let gemara: String

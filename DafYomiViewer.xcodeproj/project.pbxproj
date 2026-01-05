@@ -151,6 +151,8 @@
 			);
 			mainGroup = 35BF9F0C836FB511BBA702E5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";

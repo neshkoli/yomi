@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 
 #if os(macOS)
 import AppKit
@@ -60,13 +61,33 @@ struct DafYomiHeaderView: View {
     }
     #endif
     
+    // Get the date for the currently selected daf
+    private var selectedDafDate: Date {
+        guard let masechet = selectedMasechet else {
+            return Date() // Fallback to today if no masechet selected
+        }
+        return DafYomiCalculator.calculateDate(for: masechet, daf: selectedDaf, masechtot: dataLoader.masechtot) ?? Date()
+    }
+    
+    // Format standard (Gregorian) date in Hebrew for the selected daf
+    private func formatStandardDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "he")
+        dateFormatter.dateStyle = .long
+        return dateFormatter.string(from: date)
+    }
+    
+    // Format Hebrew date for the selected daf
+    private func formatHebrewDate(_ date: Date) -> String {
+        return HebrewDateFormatter.formatHebrewDate(date)
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             #if os(macOS)
             // Add extra top padding on macOS to account for hidden title bar
             Spacer()
                 .frame(height: 8)
-            #endif
             
             // Top line - for double-click to toggle full screen
             HStack {
@@ -75,64 +96,133 @@ struct DafYomiHeaderView: View {
             .frame(height: 4)
             .frame(maxWidth: .infinity)
             .background(Color(white: 1.0))
-            #if os(macOS)
             .onTapGesture(count: 2) {
                 toggleFullScreen()
             }
             #endif
             
             // Bottom line - controls (dropdowns, buttons)
-            HStack(spacing: 12) {
-                // Settings button - at the most left
-                Button(action: {
-                    showSettings = true
-                }) {
-                    Image(systemName: "gearshape.fill")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(.primary)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 10)
+            ZStack {
+                // Background HStack for left and right sections
+                HStack(spacing: 0) {
+                    // Left section: Settings and navigation buttons
+                    HStack(spacing: 12) {
+                        // Settings button
+                        Button(action: {
+                            showSettings = true
+                        }) {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.primary)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 10)
+                        }
+                        .buttonStyle(.plain)
+                        
+                        // Next page button
+                        Button(action: goToNextPage) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(canGoNext ? .primary : .secondary)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 10)
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(!canGoNext)
+                        
+                        // Previous page button
+                        Button(action: goToPreviousPage) {
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(canGoPrevious ? .primary : .secondary)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 10)
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(!canGoPrevious)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Spacer()
+                    
+                    // Right section: Date display
+                    HStack(spacing: 12) {
+                        // Hebrew date
+                        Text(formatHebrewDate(selectedDafDate))
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.secondary)
+                        
+                        // Separator
+                        Text("•")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.secondary.opacity(0.5))
+                        
+                        // Standard date
+                        Text(formatStandardDate(selectedDafDate))
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.secondary)
+                    }
+                    .multilineTextAlignment(.trailing)
+                    .padding(.vertical, 10)
+                    .padding(.trailing, 16)
+                    .padding(.leading, 12)
+                    .environment(\.layoutDirection, .rightToLeft)
                 }
-                .buttonStyle(.plain)
                 
-                Spacer()
-                
-                // Next page button (swapped position - now first)
-                Button(action: goToNextPage) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(canGoNext ? .primary : .secondary)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 10)
-                }
-                .buttonStyle(.plain)
-                .disabled(!canGoNext)
-                
-                // Previous page button (swapped position - now second)
-                Button(action: goToPreviousPage) {
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(canGoPrevious ? .primary : .secondary)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 10)
-                }
-                .buttonStyle(.plain)
-                .disabled(!canGoPrevious)
-                
-                // Daf (page) selector - positioned to the left of masechet
-                if let masechet = selectedMasechet, !availablePages.isEmpty {
+                // Center section: Dropdowns - overlaid and centered
+                HStack(spacing: 12) {
+                    // Daf (page) selector
+                    if let masechet = selectedMasechet, !availablePages.isEmpty {
+                        Menu {
+                            ForEach(availablePages, id: \.number) { page in
+                                Button(action: {
+                                    selectedDaf = page.number
+                                }) {
+                                    HStack {
+                                        if selectedDaf == page.number {
+                                            Image(systemName: "checkmark")
+                                                .foregroundColor(.accentColor)
+                                        }
+                                        Spacer()
+                                        Text(page.hebrew)
+                                            .font(.system(size: 16))
+                                            .multilineTextAlignment(.trailing)
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .environment(\.layoutDirection, .rightToLeft)
+                                }
+                            }
+                        } label: {
+                            Text(HebrewGematria.toHebrew(selectedDaf))
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(.primary)
+                                .multilineTextAlignment(.trailing)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 10)
+                                .background(Color(white: 0.95))
+                                .cornerRadius(8)
+                        }
+                        .menuStyle(.borderlessButton)
+                        .environment(\.layoutDirection, .rightToLeft)
+                        .fixedSize()
+                    }
+                    
+                    // Masechet selector
                     Menu {
-                        ForEach(availablePages, id: \.number) { page in
+                        ForEach(dataLoader.masechtot) { masechet in
                             Button(action: {
-                                selectedDaf = page.number
+                                selectedMasechet = masechet
+                                // Reset daf to 2 when masechet changes
+                                selectedDaf = 2
                             }) {
                                 HStack {
-                                    if selectedDaf == page.number {
+                                    if let selected = selectedMasechet, selected.id == masechet.id {
                                         Image(systemName: "checkmark")
                                             .foregroundColor(.accentColor)
                                     }
                                     Spacer()
-                                    Text(page.hebrew)
+                                    Text(masechet.heTitle)
                                         .font(.system(size: 16))
                                         .multilineTextAlignment(.trailing)
                                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -142,11 +232,11 @@ struct DafYomiHeaderView: View {
                             }
                         }
                     } label: {
-                        Text(HebrewGematria.toHebrew(selectedDaf))
-                            .font(.system(size: 20, weight: .semibold))
+                        Text(selectedMasechet?.heTitle ?? "דף יומי היום")
+                            .font(.system(size: 22, weight: .bold))
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.trailing)
-                            .padding(.horizontal, 12)
+                            .padding(.horizontal, 14)
                             .padding(.vertical, 10)
                             .background(Color(white: 0.95))
                             .cornerRadius(8)
@@ -155,52 +245,15 @@ struct DafYomiHeaderView: View {
                     .environment(\.layoutDirection, .rightToLeft)
                     .fixedSize()
                 }
-                
-                // Masechet selector
-                Menu {
-                    ForEach(dataLoader.masechtot) { masechet in
-                        Button(action: {
-                            selectedMasechet = masechet
-                            // Reset daf to 2 when masechet changes
-                            selectedDaf = 2
-                        }) {
-                            HStack {
-                                if let selected = selectedMasechet, selected.id == masechet.id {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(.accentColor)
-                                }
-                                Spacer()
-                                Text(masechet.heTitle)
-                                    .font(.system(size: 16))
-                                    .multilineTextAlignment(.trailing)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .environment(\.layoutDirection, .rightToLeft)
-                        }
-                    }
-                } label: {
-                    Text(selectedMasechet?.heTitle ?? "דף יומי היום")
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.primary)
-                        .multilineTextAlignment(.trailing)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 10)
-                        .background(Color(white: 0.95))
-                        .cornerRadius(8)
-                }
-                .menuStyle(.borderlessButton)
-                .environment(\.layoutDirection, .rightToLeft)
-                .fixedSize()
-                
-                Spacer()
             }
             .padding(.vertical, 10)
-            .padding(.horizontal, 16)
+            .padding(.leading, 16)
             .frame(maxWidth: .infinity)
             .background(Color(white: 1.0))
         }
-        .frame(height: 70)
+        .frame(maxWidth: .infinity)
+        .background(Color(white: 1.0))
+        .ignoresSafeArea(.all, edges: .top)
         .sheet(isPresented: $showSettings) {
             SettingsView(fontSize: $fontSize)
         }

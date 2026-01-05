@@ -40,10 +40,13 @@ struct TextPanelView: View {
                         Spacer()
                     }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 HTMLWebView(htmlContent: content, fontSize: fontSize)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(white: 1.0))
         .environment(\.layoutDirection, .rightToLeft)
     }
@@ -60,7 +63,13 @@ struct HTMLWebView: UIViewRepresentable {
         webView.isOpaque = false
         webView.backgroundColor = .systemBackground
         webView.scrollView.backgroundColor = .systemBackground
-        webView.scrollView.contentInset = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+        // Increased padding for better spacing from edges on iPad
+        // For RTL text, more padding on right (where text starts) and minimal on left (where text ends)
+        let rightPadding: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 32 : 24
+        let leftPadding: CGFloat = 8  // Minimal padding on left side for RTL
+        let topPadding: CGFloat = 8  // Reduced top padding
+        let bottomPadding: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 28 : 20
+        webView.scrollView.contentInset = UIEdgeInsets(top: topPadding, left: leftPadding, bottom: bottomPadding, right: rightPadding)
         webView.scrollView.isScrollEnabled = true
         webView.semanticContentAttribute = .forceRightToLeft
         return webView
@@ -74,7 +83,12 @@ struct HTMLWebView: UIViewRepresentable {
     private func updateWebView(_ webView: WKWebView) {
         let textColor = UIColor.label
         let bgColor = UIColor.systemBackground
-        let htmlString = createHTMLString(textColor: textColor, bgColor: bgColor, fontSize: fontSize)
+        // For RTL text, more padding on right (where text starts) and minimal on left (where text ends)
+        let rightPadding: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 32 : 24
+        let leftPadding: CGFloat = 8  // Minimal padding on left side for RTL
+        let topPadding: CGFloat = 8  // Reduced top padding
+        let bottomPadding: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 28 : 20
+        let htmlString = createHTMLString(textColor: textColor, bgColor: bgColor, fontSize: fontSize, rightPadding: rightPadding, leftPadding: leftPadding, topPadding: topPadding, bottomPadding: bottomPadding)
         webView.loadHTMLString(htmlString, baseURL: nil)
     }
 }
@@ -100,6 +114,9 @@ struct HTMLWebView: NSViewRepresentable {
         webView.setValue(false, forKey: "drawsBackground")
         if let scrollView = webView.subviews.first?.subviews.first as? NSScrollView {
             scrollView.backgroundColor = .textBackgroundColor
+            // Add padding for macOS as well - RTL: more padding on right, minimal on left, reduced top
+            scrollView.automaticallyAdjustsContentInsets = false
+            scrollView.contentInsets = NSEdgeInsets(top: 8, left: 8, bottom: 20, right: 24)
         }
         return webView
     }
@@ -112,7 +129,7 @@ struct HTMLWebView: NSViewRepresentable {
     private func updateWebView(_ webView: WKWebView) {
         let textColor = NSColor.labelColor
         let bgColor = NSColor.textBackgroundColor
-        let htmlString = createHTMLString(textColor: textColor, bgColor: bgColor, fontSize: fontSize)
+        let htmlString = createHTMLString(textColor: textColor, bgColor: bgColor, fontSize: fontSize, rightPadding: 24, leftPadding: 8, topPadding: 8, bottomPadding: 20)
         webView.loadHTMLString(htmlString, baseURL: nil)
     }
 }
@@ -132,7 +149,7 @@ extension NSColor {
 
 // Shared HTML creation function
 extension HTMLWebView {
-    func createHTMLString(textColor: Any, bgColor: Any, fontSize: CGFloat) -> String {
+    func createHTMLString(textColor: Any, bgColor: Any, fontSize: CGFloat, rightPadding: CGFloat = 24, leftPadding: CGFloat = 8, topPadding: CGFloat = 8, bottomPadding: CGFloat = 20) -> String {
         let textColorHex: String
         let bgColorHex: String
         
@@ -163,7 +180,10 @@ extension HTMLWebView {
                     color: \(textColorHex);
                     background-color: \(bgColorHex);
                     margin: 0;
-                    padding: 12px 16px;
+                    padding-top: \(Int(topPadding))px;
+                    padding-bottom: \(Int(bottomPadding))px;
+                    padding-right: \(Int(rightPadding))px;
+                    padding-left: \(Int(leftPadding))px;
                     direction: rtl;
                     text-align: right;
                     word-wrap: break-word;
